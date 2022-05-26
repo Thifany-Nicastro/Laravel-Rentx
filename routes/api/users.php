@@ -17,7 +17,3 @@ use App\Http\Controllers\Api\V1\UserController;
 */
 
 Route::apiResource('users', UserController::class);
-
-Route::get('/hi', function () {
-    return response()->json(['message' => 'Hi World']);
-});
