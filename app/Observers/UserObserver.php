@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Hash;
 
 class UserObserver
 {
@@ -16,6 +17,7 @@ class UserObserver
     public function creating(User $user)
     {
         $user->id = Uuid::uuid4();
+        $user->password = Hash::make($user->password);
     }
 
     /**

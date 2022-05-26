@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
 use App\Services\User\CreateService;
+use App\Models\User;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
-
     public function __construct(
         private CreateService $createService
     ) {}
@@ -33,25 +33,25 @@ class UserController extends Controller
      * @param  \Illuminate\Http\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request): JsonResponse
+    public function store(UserRequest $request): Response
     {
-        $user = $this->createService->execute($request->validated());
+        $this->createService->execute($request->validated());
 
-        return response()->json(
-            new UserResource($user),
-            Response::HTTP_CREATED
-        );
+        return response()->noContent(201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user): JsonResponse
     {
-        //
+        return response()->json(
+            new UserResource($user),
+            Response::HTTP_OK
+        );
     }
 
     /**
