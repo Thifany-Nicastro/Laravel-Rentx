@@ -37,5 +37,9 @@ class UserTest extends TestCase
         $response = $this->postJson('/api/users', $user);
 
         $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'username',
+            'email',
+        ]);
     }
 }
