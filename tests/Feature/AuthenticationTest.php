@@ -11,7 +11,10 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_login()
+    /**
+    * @test
+    */
+    public function should_be_able_to_authenticate_an_user()
     {
         $user = User::factory()->create();
 
@@ -24,13 +27,29 @@ class AuthenticationTest extends TestCase
         $response->assertJsonStructure(['token']);
     }
 
-    public function test_cant_login_with_incorrect_credentials()
+    /**
+    * @test
+    */
+    public function should_not_be_able_to_authenticate_an_nonexistent_user()
+    {
+        $response = $this->postJson('/api/login', [
+            'email' => 'false@email.com',
+            'password' => '1234'
+        ]);
+
+        $response->assertStatus(401);
+    }
+
+    /**
+    * @test
+    */
+    public function should_not_be_able_to_authenticate_with_incorrect_password()
     {
         $user = User::factory()->create()->toArray();
 
         $response = $this->postJson('/api/login', [
             ...$user,
-            'password' => 'incorrect'
+            'password' => 'incorrectPassword'
         ]);
 
         $response->assertStatus(401);
