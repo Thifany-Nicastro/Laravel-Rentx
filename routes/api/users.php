@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\UserAvatarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,9 @@ use App\Http\Controllers\Api\V1\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::patch('users/avatar', [UserAvatarController::class, 'upload']);
+});
 
 Route::apiResource('users', UserController::class);

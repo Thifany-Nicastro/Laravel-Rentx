@@ -44,4 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'isAdmin' => 'boolean',
     ];
+
+    public function avatar()
+    {
+        return $this->hasOne(UserAvatar::class);
+    }
 }
